@@ -1,5 +1,7 @@
 package com.example.buylistapplication.domain
 
-class DeleteShopItemUseCase {
-    fun deleteShopShopItem(shopItem: ShopItem) {}
+class DeleteShopItemUseCase (private val shopListRepository: ShopListRepository) {
+    fun deleteShopShopItem(shopItem: ShopItem) {
+        return shopListRepository.deleteShopShopItem(shopItem)
+    }
 }

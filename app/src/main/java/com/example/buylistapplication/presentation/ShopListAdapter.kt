@@ -13,6 +13,11 @@ import java.lang.RuntimeException
 
 class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>() {
 
+
+    var onShopItemLongClickListener: ((ShopItem) -> Unit)? = null
+    var onShopItemClickListener: ((ShopItem) -> Unit)? = null
+    //var onShopItemLongClickListener: OnShopItemLongClickListener? = null
+
     var shopList = listOf<ShopItem>()
         set(value) {
             field = value
@@ -43,7 +48,11 @@ class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>(
         viewHolder.tvName.text = "${shopItem.name}"
         viewHolder.tvCount.text = shopItem.count.toString()
         viewHolder.view.setOnLongClickListener {
+            onShopItemLongClickListener?.invoke(shopItem)
             true
+        }
+        viewHolder.view.setOnClickListener{
+            onShopItemClickListener?.invoke(shopItem)
         }
 /*
         if(shopItem.enabled) {
@@ -70,11 +79,6 @@ class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>(
         }
     }
 
-    companion object {
-        const val  VIEW_TYPE_ENABLED = 10
-        const val  VIEW_TYPE_DISABLED = 11
-        const val  MAX_POOL_SIZE = 15
-    }
 
 
     override fun getItemCount(): Int {
@@ -86,4 +90,16 @@ class ShopListAdapter: RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>(
         val tvCount = view.findViewById<TextView>(R.id.tv_count)
 
     }
+
+
+    interface OnShopItemLongClickListener {
+        fun onShopItemLongClick(shopItem: ShopItem)
+    }
+
+    companion object {
+        const val  VIEW_TYPE_ENABLED = 10
+        const val  VIEW_TYPE_DISABLED = 11
+        const val  MAX_POOL_SIZE = 15
+    }
+
 }

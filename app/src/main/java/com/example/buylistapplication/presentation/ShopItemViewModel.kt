@@ -10,7 +10,6 @@ class ShopItemViewModel: ViewModel() {
 
     private val repository = ShopListRepositoryImpl
 
-
     private val getShopItemUseCase = GetShopItemUseCase(repository)
     private val addShopItemUseCase = AddShopItemUseCase(repository)
     private val editShopItemUseCase = EditShopItemUseCase(repository)
@@ -31,7 +30,6 @@ class ShopItemViewModel: ViewModel() {
     val shouldCloseScreen: LiveData<Unit>
         get() = _shouldCloseScreen
 
-
     fun getShopItem(shopItemId: Int) {
         val item = getShopItemUseCase.getShopItem(shopItemId)
         _shopItem.value = item
@@ -41,21 +39,45 @@ class ShopItemViewModel: ViewModel() {
         val name = parseName(inputName)
         val count = parseCount(inputCount)
         val fieldsValid = validateInput(name, count)
-        if(fieldsValid) {
+        if (fieldsValid) {
             val shopItem = ShopItem(name, count, true)
             addShopItemUseCase.addShopItem(shopItem)
             finishWork()
         }
-
     }
 
-    private fun validateInput(name: String, count: Int) : Boolean {
+    fun editShopItem(inputName: String?, inputCount: String?) {
+        val name = parseName(inputName)
+        val count = parseCount(inputCount)
+        val fieldsValid = validateInput(name, count)
+        if (fieldsValid) {
+            _shopItem.value?.let {
+                val item = it.copy(name = name, count = count)
+                editShopItemUseCase.editShopItem(item)
+                finishWork()
+            }
+        }
+    }
+
+    private fun parseName(inputName: String?): String {
+        return inputName?.trim() ?: ""
+    }
+
+    private fun parseCount(inputCount: String?): Int {
+        return try {
+            inputCount?.trim()?.toInt() ?: 0
+        } catch (e: Exception) {
+            0
+        }
+    }
+
+    private fun validateInput(name: String, count: Int): Boolean {
         var result = true
-        if(name.isBlank()){
+        if (name.isBlank()) {
             _errorInputName.value = true
             result = false
         }
-        if(count <= 0){
+        if (count <= 0) {
             _errorInputCount.value = true
             result = false
         }
@@ -70,33 +92,6 @@ class ShopItemViewModel: ViewModel() {
         _errorInputCount.value = false
     }
 
-
-
-    private fun parseCount(inputCount: String?) : Int {
-        return try {
-            inputCount?.trim()?.toInt() ?: 0
-        } catch (e: Exception) {
-            0
-        }
-    }
-
-    private fun parseName(inputName: String?) : String {
-        return inputName?.trim() ?: ""
-    }
-
-
-    fun editShopItem(inputName: String?, inputCount: String?) {
-        val name = parseName(inputName)
-        val count = parseCount(inputCount)
-        val fieldsValid = validateInput(name, count)
-        if (fieldsValid) {
-            _shopItem.value?.let {
-                val item = it.copy(name = name, count = count)
-                editShopItemUseCase.editShopItem(item)
-                finishWork()
-            }
-        }
-    }
     private fun finishWork() {
         _shouldCloseScreen.value = Unit
     }

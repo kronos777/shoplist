@@ -1,18 +1,19 @@
 package com.example.buylistapplication.presentation
 
+
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.buylistapplication.R
 import com.example.buylistapplication.databinding.ActivityMainBinding
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+
 
 class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
+
     private lateinit var viewModel: MainViewModel
     private lateinit var shopListAdapter: ShopListAdapter
     private lateinit var binding: ActivityMainBinding

@@ -1,9 +1,9 @@
 package com.example.buylistapplication.domain
 
-class GetShopItemUseCase (private val shopListRepository: ShopListRepository) {
 
+class GetShopItemUseCase(private val shopListRepository: ShopListRepository) {
 
-    fun getShopItem(shopItemId: Int): ShopItem {
+    suspend fun getShopItem(shopItemId: Int): ShopItem {
         return shopListRepository.getShopItem(shopItemId)
     }
 }

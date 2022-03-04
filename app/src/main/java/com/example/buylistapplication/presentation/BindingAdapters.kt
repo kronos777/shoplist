@@ -1,5 +1,6 @@
 package com.example.buylistapplication.presentation
 
+
 import androidx.databinding.BindingAdapter
 import com.example.buylistapplication.R
 import com.google.android.material.textfield.TextInputLayout

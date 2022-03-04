@@ -1,5 +1,6 @@
 package com.example.buylistapplication.presentation
 
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -40,14 +41,13 @@ class ShopListAdapter : ListAdapter<ShopItem, ShopItemViewHolder>(ShopItemDiffCa
         binding.root.setOnClickListener {
             onShopItemClickListener?.invoke(shopItem)
         }
-        when (binding) {
+        /**/
+       when (binding) {
             is ItemShopDisabledBinding -> {
-                binding.tvName.text = shopItem.name
-                binding.tvCount.text = shopItem.count.toString()
+                binding.shopItem = shopItem
             }
             is ItemShopEnabledBinding -> {
-                binding.tvName.text = shopItem.name
-                binding.tvCount.text = shopItem.count.toString()
+                binding.shopItem = shopItem
             }
         }
     }
